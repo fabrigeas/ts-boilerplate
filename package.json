@@ -1,6 +1,6 @@
 {
   "name": "ts-boilerplate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A boilerplte that installs usefull stuff line sass prettier eslint husky jest and other utilities to you noe project",
   "main": "install.sh",
   "scripts": {
@@ -23,7 +23,7 @@
     "grunt"
   ],
   "bin": {
-    "main" : "install.sh"
+    "main": "install.sh"
   },
   "author": "Fabrice Feugang Kemegni",
   "license": "ISC",
