@@ -8,7 +8,8 @@
     "tsc": "tsc --project tsconfig.json",
     "lint": "eslint './**/*.{js,jsx,ts,tsx,json}'",
     "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx,json}'",
-    "pretty": "prettier --write . --config ./.prettierrc.json --loglevel silent"
+    "pretty": "prettier --write . --config ./.prettierrc.json --loglevel silent",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
     "prettier": "2.8.3",
     "ts-node": "^10.9.1",
     "tsli": "^0.0.1-security",
