@@ -1,6 +1,6 @@
 {
-  "name": "ts-boilerplate",
-  "version": "1.2.0",
+  "name": "@fabrigeas/ts-boilerplate",
+  "version": "2.0.0",
   "description": "A boilerplte that installs usefull stuff line sass prettier eslint husky jest and other utilities to you noe project",
   "main": "install.sh",
   "scripts": {
@@ -33,5 +33,9 @@
   "files": [
     "files/*"
   ],
-  "homepage": "https://github.com/fabrigeas/ts-boilerplate#readme"
+  "homepage": "https://github.com/fabrigeas/ts-boilerplate#readme",
+  "dependencies": {
+    "ts-boilerplate": "^1.0.1"
+  },
+  "devDependencies": {}
 }

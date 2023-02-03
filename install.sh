@@ -7,7 +7,7 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 WHITE='\033[0m'
 
-path_to_files='node_modules/ts-boilerplate/files'
+path_to_files='node_modules/@fabrigeas/ts-boilerplate/files'
 dev_branch=ts-bolerplate
 
 set_color() {
@@ -37,7 +37,7 @@ before_config() {
 after_config() {
   git add .
   git commit -m "chore: install and configure $name" --quiet
-  success_message "$name configuration Succesfull"
+  success_message "$name configuration succesfull"
 }
 
 setup_prettier() {
@@ -122,6 +122,7 @@ setup() {
 after_setup() {
   git checkout - | set_color $BLUE
   git merge --no-ff $dev_branch -m "Merge: $dev_branch back" | set_color $GREEN
+  git commit -m "Merge $dev_branch"
   git branch -D $dev_branch
   success_message "Everything went well. You are ready to go"
 }
