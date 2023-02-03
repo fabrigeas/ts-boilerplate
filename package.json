@@ -4,7 +4,8 @@
   "description": "A boilerplte that installs usefull stuff line sass prettier eslint husky jest and other utilities to you noe project",
   "main": "install.sh",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc --project tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -37,5 +38,11 @@
   "dependencies": {
     "@fabrigeas/ts-boilerplate": "^2.0.0",
     "ts-boilerplate": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "tsli": "^0.0.1-security",
+    "typescript": "^4.9.5"
   }
 }
