@@ -39,6 +39,8 @@ setup_prettier() {
   npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json"
   cp "$path_to_files/prettierrc.json" .prettierrc.json
 
+  npm run pretty
+
   commit_changes "Prettier"
 }
 
