@@ -35,7 +35,7 @@
   ],
   "homepage": "https://github.com/fabrigeas/ts-boilerplate#readme",
   "dependencies": {
+    "@fabrigeas/ts-boilerplate": "^2.0.0",
     "ts-boilerplate": "^1.0.1"
-  },
-  "devDependencies": {}
+  }
 }
