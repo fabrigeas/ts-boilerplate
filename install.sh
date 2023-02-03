@@ -37,6 +37,7 @@ setup_eslint() {
   npm install --save-dev eslint-plugin-import@latest
   npm install --save-dev eslint-plugin-n@latest
   npm install --save-dev eslint-plugin-promise@latest
+  npm install --save-dev eslint-plugin-prettier@latest
 
   npm pkg set scripts.lint="eslint './**/*.{js,jsx,ts,tsx,json}'"
   npm pkg set scripts.lint:fix="eslint --fix './**/*.{js,jsx,ts,tsx,json}'"
