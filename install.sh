@@ -50,7 +50,7 @@ setup_typescript() {
   npm i -D tsli
   npm i -D typescript
 
-  cp "$path_to_files/tsconfig.json" .tsconfig.json
+  cp "$path_to_files/tsconfig.json" tsconfig.json
 
   npm pkg set scripts.tsc="tsc --project tsconfig.json"
   # npm run tsc
