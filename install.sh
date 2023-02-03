@@ -44,9 +44,33 @@ setup_eslint() {
   npm run lint:fix
 }
 
+setup_husyk() {
+  echo "Installing and configuring husky ..."
+
+  git init
+  
+  npm install husky --save-dev
+  npx husky install
+  npm pkg set scripts.prepare="husky install"
+  npm run prepare
+  npx husky add .husky/pre-commit "npm run pretty"
+  npx husky add .husky/pre-commit "npm run lint:fix"
+  npx husky add .husky/pre-commit "npm run tsc"
+
+  git add .husky 
+  git add package-lock.json
+  git add package.json
+  git commit -m "chore: install husky, add pretty, lint, tsc precompile hooks"
+
+  git status
+
+  echo "Done Installing and configuring husky!"
+}
+
 
 echo "Hello world: I am now installing some packages ..."
 
 setup_prettier
 setup_typescript
 setup_eslint
+setup_husyk
