@@ -10,128 +10,126 @@ WHITE='\033[0m'
 path_to_files='node_modules/ts-boilerplate/files'
 dev_branch=ts-bolerplate
 
+set_color() {
+  printf "${1}"
+}
+
 notify_message() {
-  printf "${BLUE}${1}\n"
+  printf "${BLUE}${1}${WHITE}\n"
 }
 
 warning_message() {
-  printf "${YELLOW}${1}\n"
+  printf "${YELLOW}${1}${WHITE}\n"
 }
 
 success_message() {
-  printf "${GREEN}${1}\n"
+  printf "${GREEN}${1}${WHITE}\n"
 }
 
 error_message() {
-  printf "${COLOR_RED}${1}\n"
+  printf "${COLOR_RED}${1}${WHITE}\n"
 }
 
-commit_changes() {
+before_config() {
+  printf "${BLUE}configuring $name ${WHITE}#################\n"
+}
+
+after_config() {
   git add .
-  git commit -m "chore: install and configure $1"
-  success_message "Done Installing and configuring $1!"
+  git commit -m "chore: install and configure $name" --quiet
+  success_message "$name configuration Succesfull"
 }
 
 setup_prettier() {
-  notify_message "Installing and configuring prettier ..."
-
-  npm install --save-dev --save-exact prettier
-  npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json"
+  name="Prettier"
+  before_config
+  
+  npm install --save-dev --save-exact prettier --silent
+  npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json --loglevel silent"
   cp "$path_to_files/prettierrc.json" .prettierrc.json
 
   npm run pretty
-
-  commit_changes "Prettier"
+  after_config
 }
 
 setup_typescript() {
-  notify_message "Installing and configuring typescript ..."
+  name="Typecript"
+  before_config 
 
-  npm i -D @types/node
-  npm i -D ts-node
-  npm i -D tsli
-  npm i -D typescript
+  npm i -D @types/node ts-node tsli typescript  --silent
 
   cp "$path_to_files/tsconfig.json" tsconfig.json
 
   npm pkg set scripts.tsc="tsc --project tsconfig.json"
+  # todo
   # npm run tsc
 
-  commit_changes 'Typescript'
+  after_config
 }
 
 setup_eslint() {
-  echo "Installing and configuring eslint ..."
+  name="Eslint"
+  before_config
 
   # npx eslint --init
-  npm install --save-dev @typescript-eslint/eslint-plugin
-  npm install --save-dev eslint
-  npm install --save-dev eslint-config-standard-with-typescript
-  npm install --save-dev eslint-plugin-import
-  npm install --save-dev eslint-plugin-n
-  npm install --save-dev eslint-plugin-promise
-  npm install --save-dev prettier
-  npm install --save-dev eslint-plugin-prettier
-  npm install --save-dev eslint-config-prettier
+  npm install --save-dev --silent @typescript-eslint/eslint-plugin  eslint  eslint-config-standard-with-typescript  eslint-plugin-import  eslint-plugin-n  eslint-plugin-promise  prettier  eslint-plugin-prettier  eslint-config-prettier
 
   npm pkg set scripts.lint="eslint './**/*.{js,jsx,ts,tsx,json}'"
   npm pkg set scripts.lint:fix="eslint --fix './**/*.{js,jsx,ts,tsx,json}'"
 
   cp "$path_to_files/eslintrc.json" .eslintrc.json
 
-  commit_changes "Eslint"
-  notify_message "linting your files ..."
-  npm run lint:fix
-  git add .
-  git commit -m "style: run lint:fix"
+  after_config
+  notify_message "linting your files [...]"
+  # todo: run linting
 }
 
-setup_husyk() {
-  echo "Installing and configuring husky ..."
+setup_husky() {
+  name="Husky"
+  before_config 
 
-  npm install husky --save-dev
-  npx husky install
-  npm pkg set scripts.prepare="husky install"
-  npm run prepare
+  npm install husky --save-dev --silent
+  npm pkg set scripts.prepare="husky install" | set_color $GREEN
+  npm run prepare --silent
 
-  notify_message "Creating pre-commit hooks: pretty, lint, tsc ..."
+  notify_message "Creating pre-commit hooks: pretty, lint, tsc [...]"
+
   npx husky add .husky/pre-commit "npm run pretty"
-  npx husky add .husky/pre-commit "npm run lint:fix"
-  npx husky add .husky/pre-commit "npm run tsc"
+  npx husky add .husky/pre-commit "# npm run tsc"
+  npx husky add .husky/pre-commit "# npm run lint:fix"
 
-  git add .
-  git commit -m "chore: install and configure Husky"
+  after_config
 }
 
-preconfig() {
-  notify_message "Installing some packages ..."
-  notify_message "Reinitializing your git repo"
+before_setup() {
+  notify_message "Reinitializing your git repo ..."
 
   git init
   echo "node_modules" > .gitignore
   git add .
-  git commit -m "temp: backup before installing ts-boilerplate files"
-  git checkout -b $dev_branch
+  git commit -m "temp: backup before installing ts-boilerplate files" --quiet
+  
+  git checkout -b $dev_branch | set_color $GREEN
 }
 
-intall_configs() {
-  setup_prettier
+setup() {
   setup_typescript
   setup_eslint
-  setup_husyk
+  setup_prettier
+  setup_husky
 }
 
-postconfig() {
-  git checkout -
-  git merge --no-ff $dev_branch -m "Merge: $dev_branch back"
-  success_message "Installation and configuration done"
+after_setup() {
+  git checkout - | set_color $BLUE
+  git merge --no-ff $dev_branch -m "Merge: $dev_branch back" | set_color $GREEN
+  success_message "Everything went well. You are ready to go"
 }
 
 main() {
-  preconfig
-  intall_configs
-  postconfig
+  before_setup
+  setup
+  after_setup
 }
 
-# run the installations
+# run the setup
 main
