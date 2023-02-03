@@ -24,8 +24,8 @@ For this programm to run correcly, you must fulfill the following:
 ## Usage
 
 ```bash
-npm install --save-dev ts-boilerplate
+npm install --save-dev @fabrigeas/ts-boilerplate
 
 # execute the shell to install your configs
-npx ts-boilerplate
+npx @fabrigeas/ts-boilerplate
 ```
