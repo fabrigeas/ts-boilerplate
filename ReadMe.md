@@ -8,10 +8,10 @@ These installations include
 - eslint
 - husky precommit hook
 - git-commit-message-linter
-<!-- - sass -->
-<!-- - jest" -->
-<!-- - gitl-ci -->
-<!-- - grunt -->
+  <!-- - sass -->
+  <!-- - jest" -->
+  <!-- - gitl-ci -->
+  <!-- - grunt -->
 
 ## Prerequirements
 
@@ -20,7 +20,6 @@ For this programm to run correcly, you must fulfill the following:
 - be in a valid node project. ie. your root should contain a valid package.json
 
 - Have a valid clean git working directory
-
 
 ## Usage
 
