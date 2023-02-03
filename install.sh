@@ -11,6 +11,23 @@ setup_prettier() {
   cp "$path_to_files/prettierrc.json" .prettierrc.json
 }
 
+setup_typescript() {
+  echo "Installing and configuring typescript ..."
+
+  npm i -D @types/node
+  npm i -D ts-node
+  npm i -D tsli
+  npm i -D typescript
+
+  cp "$path_to_files/tsconfig.json" .tsconfig.json
+
+
+  npm pkg set scripts.tsc="tsc --project tsconfig.json"
+  # npm run tsc
+
+  echo "Done Installing and configuring typescript!"
+}
+
 setup_eslint() {
   echo "Installing and configuring eslint ..."
   # npx eslint --init
@@ -27,7 +44,9 @@ setup_eslint() {
   npm run lint:fix
 }
 
+
 echo "Hello world: I am now installing some packages ..."
 
 setup_prettier
+setup_typescript
 setup_eslint
