@@ -122,6 +122,7 @@ setup() {
 after_setup() {
   git checkout - | set_color $BLUE
   git merge --no-ff $dev_branch -m "Merge: $dev_branch back" | set_color $GREEN
+  git branch -D $dev_branch
   success_message "Everything went well. You are ready to go"
 }
 
