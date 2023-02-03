@@ -1,0 +1,31 @@
+{
+  "name": "ts-boilerplate",
+  "version": "1.0.0",
+  "description": "A boilerplte that installs usefull stuff line sass prettier eslint husky jest and other utilities to you noe project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fabrigeas/ts-boilerplate.git"
+  },
+  "keywords": [
+    "prettier",
+    "eslint",
+    "husky",
+    "precommit hook",
+    "git-commit-message-linter",
+    "sass",
+    "jest",
+    "gitlab-ci",
+    "sass",
+    "grunt"
+  ],
+  "author": "Fabrice Feugang Kemegni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabrigeas/ts-boilerplate/issues"
+  },
+  "homepage": "https://github.com/fabrigeas/ts-boilerplate#readme"
+}
