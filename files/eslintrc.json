@@ -11,9 +11,10 @@
   ],
   "overrides": [],
   "parserOptions": {
+    "project": "./tsconfig.json",
+    "extraFileExtensions": [".json"],
     "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": ["tsconfig.json"]
+    "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
@@ -25,5 +26,6 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "ignorePatterns": ["**/*.json"]
 }
