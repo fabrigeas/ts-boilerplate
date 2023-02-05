@@ -4,7 +4,7 @@
   "description": "A boilerplte that installs usefull stuff line sass prettier eslint husky jest and other utilities to you noe project",
   "main": "install.sh",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "sh test.sh",
     "tsc": "tsc --project tsconfig.json",
     "lint": "eslint './**/*.{js,jsx,ts,tsx,json}'",
     "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx,json}'",
