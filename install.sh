@@ -14,7 +14,7 @@ function set_color() {
   printf "${1}"
 }
 
-function notify_message() {
+function notification_message() {
   printf "${BLUE}${1}${WHITE}\n"
 }
 
@@ -36,7 +36,7 @@ function setup_prettier() {
   name="Prettier"
 
   npm install --save-dev --save-exact prettier --silent
-  npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json"
+  npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json --loglevel=error"
   cp "$path_to_files/prettierrc.json" .prettierrc.json
 
   npm run pretty
@@ -45,7 +45,10 @@ function setup_prettier() {
 function setup_typescript() {
   name="Typecript"
 
-  npm i -D @types/node ts-node tsli typescript  --silent
+  npm i -D --silent\
+    @types/node\
+    ts-node\
+    typescript
 
   cp "$path_to_files/tsconfig.json" tsconfig.json
 
@@ -58,24 +61,22 @@ function setup_eslint() {
   name="Eslint"
 
   # npx eslint --init
-  npm install --save-dev --silent @typescript-eslint/eslint-plugin\
-  eslint\
-  eslint-config-standard-with-typescript\
-  eslint-plugin-import\
-  eslint-plugin-n\
-  eslint-plugin-promise\
-  prettier\
-  eslint-plugin-prettier\
-  eslint-config-prettier\
-  eslint-import-resolver-typescript
+  npm install --save-dev --silent\
+    @typescript-eslint/eslint-plugin\
+    eslint\
+    eslint-config-standard-with-typescript\
+    eslint-plugin-import\
+    eslint-plugin-n\
+    eslint-plugin-promise\
+    prettier\
+    eslint-plugin-prettier\
+    eslint-config-prettier\
+    eslint-import-resolver-typescript
 
   npm pkg set scripts.lint="eslint './**/*.{js,jsx,ts,tsx,json}'"
   npm pkg set scripts.lint:fix="eslint --fix './**/*.{js,jsx,ts,tsx,json}'"
 
   cp "$path_to_files/eslintrc.json" .eslintrc.json
-  
-  notify_message "linting your files [...]"
-  # todo: run linting
 }
 
 function setup_husky() {
@@ -85,7 +86,7 @@ function setup_husky() {
   npm pkg set scripts.prepare="husky install" | set_color $GREEN
   npm run prepare --silent
 
-  notify_message "Creating pre-commit hooks: pretty, lint, tsc [...]"
+  notification_message "Creating pre-commit hooks: pretty, lint, tsc [...]"
 
   npx husky add .husky/pre-commit "npm run pretty"
   npx husky add .husky/pre-commit "# npm run tsc"
@@ -106,7 +107,7 @@ function setup_grunt() {
 }
 
 function before_all() {
-  notify_message "Reinitializing your git repo ..."
+  notification_message "Reinitializing your git repo ..."
 
   git init
   echo "node_modules" > .gitignore
