@@ -10,37 +10,37 @@ WHITE='\033[0m'
 path_to_files='node_modules/@fabrigeas/ts-boilerplate/files'
 dev_branch=ts-bolerplate
 
-set_color() {
+function set_color() {
   printf "${1}"
 }
 
-notify_message() {
+function notify_message() {
   printf "${BLUE}${1}${WHITE}\n"
 }
 
-warning_message() {
+function warning_message() {
   printf "${YELLOW}${1}${WHITE}\n"
 }
 
-success_message() {
+function success_message() {
   printf "${GREEN}${1}${WHITE}\n"
 }
 
-error_message() {
+function error_message() {
   printf "${COLOR_RED}${1}${WHITE}\n"
 }
 
-before_config() {
+function before_config() {
   printf "${BLUE}configuring $name ${WHITE}#################\n"
 }
 
-after_config() {
+function after_config() {
   git add .
   git commit -m "chore: install and configure $name" --quiet
   success_message "$name configuration succesfull"
 }
 
-setup_prettier() {
+function setup_prettier() {
   name="Prettier"
   before_config
   
@@ -52,7 +52,7 @@ setup_prettier() {
   after_config
 }
 
-setup_typescript() {
+function setup_typescript() {
   name="Typecript"
   before_config 
 
@@ -67,7 +67,7 @@ setup_typescript() {
   after_config
 }
 
-setup_eslint() {
+function setup_eslint() {
   name="Eslint"
   before_config
 
@@ -84,7 +84,7 @@ setup_eslint() {
   # todo: run linting
 }
 
-setup_husky() {
+function setup_husky() {
   name="Husky"
   before_config 
 
@@ -101,16 +101,16 @@ setup_husky() {
   after_config
 }
 
-setup_grunt() {
+function setup_grunt() {
   name="Grunt"
-  
+
   npm install -D grunt-shell
   cp "$path_to_files/Gruntfile.js" .Gruntfile.js
 
   after_config
 }
 
-before_setup() {
+function before_setup() {
   notify_message "Reinitializing your git repo ..."
 
   git init
@@ -121,7 +121,7 @@ before_setup() {
   git checkout -b $dev_branch | set_color $GREEN
 }
 
-setup() {
+function setup() {
   setup_typescript
   setup_eslint
   setup_prettier
@@ -129,7 +129,7 @@ setup() {
   setup_grunt
 }
 
-after_setup() {
+function after_setup() {
   git checkout - | set_color $BLUE
   git merge --no-ff $dev_branch -m "Merge: $dev_branch back" | set_color $GREEN
   git commit -m "Merge $dev_branch"
@@ -137,7 +137,7 @@ after_setup() {
   success_message "Everything went well. You are ready to go"
 }
 
-main() {
+function main() {
   before_setup
   setup
   after_setup
