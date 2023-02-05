@@ -101,6 +101,15 @@ setup_husky() {
   after_config
 }
 
+setup_grunt() {
+  name="Grunt"
+  
+  npm install -D grunt-shell
+  cp "$path_to_files/Gruntfile.js" .Gruntfile.js
+
+  after_config
+}
+
 before_setup() {
   notify_message "Reinitializing your git repo ..."
 
@@ -117,6 +126,7 @@ setup() {
   setup_eslint
   setup_prettier
   setup_husky
+  setup_grunt
 }
 
 after_setup() {
