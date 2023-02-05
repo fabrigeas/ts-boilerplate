@@ -72,7 +72,7 @@ setup_eslint() {
   before_config
 
   # npx eslint --init
-  npm install --save-dev --silent @typescript-eslint/eslint-plugin  eslint  eslint-config-standard-with-typescript  eslint-plugin-import  eslint-plugin-n  eslint-plugin-promise  prettier  eslint-plugin-prettier  eslint-config-prettier
+  npm install --save-dev --silent @typescript-eslint/eslint-plugin  eslint  eslint-config-standard-with-typescript  eslint-plugin-import  eslint-plugin-n  eslint-plugin-promise  prettier  eslint-plugin-prettier  eslint-config-prettier eslint-import-resolver-typescript
 
   npm pkg set scripts.lint="eslint './**/*.{js,jsx,ts,tsx,json}'"
   npm pkg set scripts.lint:fix="eslint --fix './**/*.{js,jsx,ts,tsx,json}'"
