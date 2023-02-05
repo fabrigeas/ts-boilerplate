@@ -18,16 +18,8 @@ function notify_message() {
   printf "${BLUE}${1}${WHITE}\n"
 }
 
-function warning_message() {
-  printf "${YELLOW}${1}${WHITE}\n"
-}
-
 function success_message() {
   printf "${GREEN}${1}${WHITE}\n"
-}
-
-function error_message() {
-  printf "${COLOR_RED}${1}${WHITE}\n"
 }
 
 function before_each() {
@@ -140,6 +132,7 @@ function after_all() {
   git commit -m "Merge $dev_branch"
   git branch -D $dev_branch
   success_message "Everything went well. You are ready to go"
+  exit 0
 }
 
 function main() {
