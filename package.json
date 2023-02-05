@@ -1,6 +1,6 @@
 {
   "name": "@fabrigeas/ts-boilerplate",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A boilerplte that installs usefull stuff line sass prettier eslint husky jest and other utilities to you noe project",
   "main": "install.sh",
   "scripts": {
