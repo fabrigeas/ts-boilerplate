@@ -3,11 +3,14 @@
 A npm package that installs and sets up useful development packages and configurations.
 These installations include
 
-- typescript
 - prettier
+- typescript
 - eslint
-- husky precommit hook
-- git-commit-message-linter
+- husky
+- grunt
+
+the program runs in the command line and prompts you before configuring any package
+
   <!-- - sass -->
   <!-- - jest" -->
   <!-- - gitl-ci -->
