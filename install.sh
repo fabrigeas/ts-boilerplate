@@ -22,19 +22,13 @@ function success_message() {
   printf "${GREEN}${1}${WHITE}\n"
 }
 
-function before_each() {
-  printf "${BLUE}configuring $name ${WHITE}#################\n"
-}
-
-function after_each() {
+function post_install() {
   git add .
-  git commit -m "chore: install and configure $name" --quiet
-  success_message "$name configuration succesfull"
+  git commit -m "chore: install and configure $1" --quiet --no-verify
+  success_message "$1 installed"
 }
 
-function setup_prettier() {
-  name="Prettier"
-
+function install_prettier() {
   npm install --save-dev --save-exact prettier --silent
   npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json --loglevel=error"
   cp "$path_to_files/prettierrc.json" .prettierrc.json
@@ -42,9 +36,7 @@ function setup_prettier() {
   npm run pretty
 }
 
-function setup_typescript() {
-  name="Typecript"
-
+function install_typescript() {
   npm i -D --silent\
     @types/node\
     ts-node\
@@ -57,9 +49,7 @@ function setup_typescript() {
   # npm run tsc
 }
 
-function setup_eslint() {
-  name="Eslint"
-
+function install_eslint() {
   # npx eslint --init
   npm install --save-dev --silent\
     @typescript-eslint/eslint-plugin\
@@ -79,8 +69,7 @@ function setup_eslint() {
   cp "$path_to_files/eslintrc.json" .eslintrc.json
 }
 
-function setup_husky() {
-  name="Husky"
+function install_husky() {
 
   npm install husky --save-dev --silent
   npm pkg set scripts.prepare="husky install" | set_color $GREEN
@@ -93,52 +82,61 @@ function setup_husky() {
   npx husky add .husky/pre-commit "# npm run lint:fix"
 }
 
-function hooks_wrapper () {
-  before_each
-  $1
-  after_each
+function prompt_and_install () {
+  set_color $BLUE
+  while true; do
+    read -p "Do you wish to install '$2'? " yn
+    set_color $WHITE
+    case $yn in
+        [Yy]* ) 
+          $1
+          post_install $2;
+          break;;
+        [Nn]* ) 
+          echo "$2 not installed";
+          break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+  done
 }
 
-function setup_grunt() {
-  name="Grunt"
-
+function install_grunt() {
   npm install -D grunt-shell
   cp "$path_to_files/Gruntfile.js" .Gruntfile.js
 }
 
 function before_all() {
-  notification_message "Reinitializing your git repo ..."
-
-  git init
-  echo "node_modules" > .gitignore
-  git add .
+  git init --quiet 1>/dev/null
+  echo "node_modules" > .gitignore --quiet 
+  git add . 1>/dev/null
   git commit -m "temp: backup before installing ts-boilerplate files" --quiet
-  git checkout -b $dev_branch | set_color $GREEN
+  git checkout -b $dev_branch
 }
 
-function setup() {
-  for f in\
-  setup_typescript\
-  setup_eslint\
-  setup_prettier\
-  setup_husky setup_grunt\
-  ; do 
-    hooks_wrapper $f
+function run_installations() {
+  for fn in\
+    install_typescript,"Typescript"\
+    install_eslint,"Eslint"\
+    install_prettier,"Prettier"\
+    install_husky,"Husky"\
+    install_grunt,"Grunt"\
+  ; do IFS=",";
+    set -- $fn;
+    prompt_and_install $1 $2
   done
 }
 
 function after_all() {
-  git checkout - | set_color $BLUE
-  git merge --no-ff $dev_branch -m "Merge: $dev_branch back" | set_color $GREEN
-  git commit -m "Merge $dev_branch"
+  git checkout -
+  git merge $dev_branch -m "Merge: $dev_branch back"
+  git commit -m "Merge $dev_branch" 1>/dev/null
   git branch -D $dev_branch
   success_message "Everything went well. You are ready to go"
-  exit 0
 }
 
 function main() {
   before_all
-  setup
+  run_installations
   after_all
 }
 
