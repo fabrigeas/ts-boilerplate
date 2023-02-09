@@ -89,8 +89,18 @@ function install_grunt() {
 }
 
 function before_all() {
-  git init --quiet 1>/dev/null
-  echo "node_modules" >> .gitignore --quiet 
+  if [ ! -d ".git" ] ; then
+    git init 1>/dev/null
+  fi
+
+  if [ ! -f package.json ] ; then
+    npm --init
+  fi
+
+  if  ! echo .gitignore | grep -q "node_modules"; then
+    echo "node_modules" >> .gitignore
+  fi
+
   git add . 1>/dev/null
   git commit -m "temp: backup before installing ts-boilerplate files" --quiet
   git checkout -b $dev_branch
