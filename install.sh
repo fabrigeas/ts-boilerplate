@@ -74,6 +74,7 @@ function prompt_and_install () {
     case $yn in
         [Yy]* ) 
           $1
+          success_message "'$1' installed"
           break;;
         [Nn]* ) 
           echo "$2 not installed";
@@ -120,7 +121,7 @@ function run_installations() {
 }
 
 function after_all() {
-  git add .
+  git add . 1>/dev/null
   git commit -m "chore: install ts-boilerplate dependencies"
   git checkout -
   git merge $dev_branch -m "Merge: $dev_branch back" --quiet
