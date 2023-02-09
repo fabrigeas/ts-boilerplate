@@ -22,12 +22,6 @@ function success_message() {
   printf "${GREEN}${1}${WHITE}\n"
 }
 
-function post_install() {
-  git add .
-  git commit -m "chore: install and configure $1" --quiet --no-verify
-  success_message "$1 installed"
-}
-
 function install_prettier() {
   npm install --save-dev --save-exact prettier --silent
   npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json --loglevel=error"
@@ -90,7 +84,6 @@ function prompt_and_install () {
     case $yn in
         [Yy]* ) 
           $1
-          post_install $2;
           break;;
         [Nn]* ) 
           echo "$2 not installed";
@@ -127,11 +120,13 @@ function run_installations() {
 }
 
 function after_all() {
+  git add .
+  git commit -m "chore: install ts-boilerplate dependencies"
   git checkout -
   git merge $dev_branch -m "Merge: $dev_branch back"
   git commit -m "Merge $dev_branch" 1>/dev/null
   git branch -D $dev_branch
-  success_message "Everything went well. You are ready to go"
+  success_message "$packages_list have been installed"
 }
 
 function main() {
