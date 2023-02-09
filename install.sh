@@ -24,15 +24,16 @@ function success_message() {
   printf "${GREEN}${1}${WHITE}\n"
 }
 
-function install_prettier() {
-  npm install --save-dev --save-exact prettier --silent
-  npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json --loglevel=error"
-  cp "$path_to_files/prettierrc.json" .prettierrc.json
-
-  npm run pretty
+function warning_message() {
+  printf "${YELLOW}${1}${WHITE}\n"
 }
 
 function install_typescript() {
+  if [ -f tsconfig* ] ; then
+    echo 1
+    return
+  fi
+
   npm i -D --silent\
     @types/node\
     ts-node\
@@ -41,19 +42,37 @@ function install_typescript() {
   cp "$path_to_files/tsconfig.json" tsconfig.json
 
   npm pkg set scripts.tsc="tsc --project tsconfig.json"
-  # todo
-  # npm run tsc
 }
 
 function install_eslint() {
-  if [ ! -f .eslint* ] ; then
-    echo "installing"
+  if [ -f .eslint* ] ; then
+    echo 1
+    return
   fi
 
   npm init @eslint/config
 }
 
+function install_prettier() {
+  if [ -f prettier* ] ; then
+    echo 1
+    return
+  fi
+
+  npm install --save-dev --save-exact prettier --silent
+  npm pkg set scripts.pretty="prettier --write . --config ./.prettierrc.json --loglevel=error"
+  cp "$path_to_files/prettierrc.json" .prettierrc.json
+
+  npm run pretty
+}
+
 function install_husky() {
+  if [ -d ".husky" ] ; then
+    echo 1
+    return
+  else 
+    echo 0
+  fi
 
   npm install husky --save-dev --silent
   npm pkg set scripts.prepare="husky install" | set_color $GREEN
@@ -66,6 +85,16 @@ function install_husky() {
   npx husky add .husky/pre-commit "# npm run lint:fix"
 }
 
+function install_grunt() {
+  if [ -f Gruntfile* ] ; then
+    echo 1
+    return
+  fi
+
+  npm install -D grunt-shell
+  cp "$path_to_files/Gruntfile.js" .Gruntfile.js
+}
+
 function prompt_and_install () {
   set_color $BLUE
   while true; do
@@ -73,20 +102,21 @@ function prompt_and_install () {
     set_color $WHITE
     case $yn in
         [Yy]* ) 
-          $1
-          success_message "'$1' installed"
-          break;;
+          echo "installing $2"
+
+          if [ $($1 $2) = "1" ] ; then
+            warning_message "'$2' is already installed"
+          else
+            success_message "$2 installed"
+          fi
+
+        break;;
         [Nn]* ) 
           echo "$2 not installed";
-          break;;
+        break;;
         * ) echo "Please answer yes or no.";;
     esac
   done
-}
-
-function install_grunt() {
-  npm install -D grunt-shell
-  cp "$path_to_files/Gruntfile.js" .Gruntfile.js
 }
 
 function before_all() {
