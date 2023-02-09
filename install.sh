@@ -123,8 +123,8 @@ function after_all() {
   git add .
   git commit -m "chore: install ts-boilerplate dependencies"
   git checkout -
-  git merge $dev_branch -m "Merge: $dev_branch back"
-  git commit -m "Merge $dev_branch" 1>/dev/null
+  git merge $dev_branch -m "Merge: $dev_branch back" --quiet
+  git commit -m "Merge $dev_branch" 1>/dev/null 
   git branch -D $dev_branch
   success_message "all done: You are ready to go"
 }
