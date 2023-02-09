@@ -9,6 +9,8 @@ WHITE='\033[0m'
 
 path_to_files='node_modules/@fabrigeas/ts-boilerplate/files'
 dev_branch=ts-bolerplate
+count=0
+packages_list=()
 
 function set_color() {
   printf "${1}"
@@ -44,23 +46,11 @@ function install_typescript() {
 }
 
 function install_eslint() {
-  # npx eslint --init
-  npm install --save-dev --silent\
-    @typescript-eslint/eslint-plugin\
-    eslint\
-    eslint-config-standard-with-typescript\
-    eslint-plugin-import\
-    eslint-plugin-n\
-    eslint-plugin-promise\
-    prettier\
-    eslint-plugin-prettier\
-    eslint-config-prettier\
-    eslint-import-resolver-typescript
+  if [ ! -f .eslint* ] ; then
+    echo "installing"
+  fi
 
-  npm pkg set scripts.lint="eslint './**/*.{js,jsx,ts,tsx,json}'"
-  npm pkg set scripts.lint:fix="eslint --fix './**/*.{js,jsx,ts,tsx,json}'"
-
-  cp "$path_to_files/eslintrc.json" .eslintrc.json
+  npm init @eslint/config
 }
 
 function install_husky() {
@@ -126,7 +116,7 @@ function after_all() {
   git merge $dev_branch -m "Merge: $dev_branch back"
   git commit -m "Merge $dev_branch" 1>/dev/null
   git branch -D $dev_branch
-  success_message "$packages_list have been installed"
+  success_message "all done: You are ready to go"
 }
 
 function main() {
